@@ -21,7 +21,7 @@ namespace Controllers.Controllers
             var urlBuilder = new UrlBuilder(_configuration["StravaApiUrl"]);
             urlBuilder.AddQueryParameter("response_type", "code");
             urlBuilder.AddQueryParameter("client_id", _configuration["ClientId"]);
-            urlBuilder.AddQueryParameter("redirect_uri", _configuration["ServerUrl"]);
+            urlBuilder.AddQueryParameter("redirect_uri", _configuration["ClientUrl"]);
             urlBuilder.AddQueryParameter("scope", "activity:write,read");
             urlBuilder.AddQueryParameter("approval_prompt", "auto");
             return urlBuilder.Build();
