@@ -1,12 +1,12 @@
 ﻿using Controllers.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Controllers.UserManagement;
 
 namespace Controllers.Controllers
 {
@@ -55,14 +55,14 @@ namespace Controllers.Controllers
                 return StatusCode((int) response.StatusCode);
             }
 
-            var content = JsonConvert.DeserializeObject<Dictionary<string, object>>(await response.Content.ReadAsStringAsync());
+            var token = await UserTokenMapper.LogInUser(response);
 
-            if (!content.ContainsKey("access_token"))
+            if (token == null)
             {
                 return BadRequest("Strava did not return token");
             }
 
-            return Ok($"{{\"access_token\": \"{content["access_token"]}\"}}");
+            return Ok($"{{\"access_token\": \"{token.AccessToken}\"}}");
         }
     }
 }
