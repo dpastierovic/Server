@@ -23,12 +23,17 @@ namespace Controllers.Controllers
         }
 
         [HttpPut]
-        [Consumes("text/plain")]
         [Route("/api/[controller]/code")]
-        public async Task<IActionResult> PutToken()
+        [Consumes("text/plain")]
+        public async Task<IActionResult> PutCode()
         {
             using var reader = new StreamReader(Request.Body, Encoding.UTF8);
             var code = await reader.ReadToEndAsync();
+
+            if (string.IsNullOrEmpty(code))
+            {
+                return BadRequest("Code is null or empty string.");
+            }
 
             var client = _clientFactory.CreateClient();
 
@@ -42,10 +47,21 @@ namespace Controllers.Controllers
                     {"grant_type", "authorization_code"}
                 })
             };
-            var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(await (await client.SendAsync(authRequest)).Content
-                .ReadAsStringAsync());
+            var response = await client.SendAsync(authRequest);
 
-            return Ok($"{{\"access_token\": \"{response["access_token"]}\"}}");
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int) response.StatusCode);
+            }
+
+            var content = JsonConvert.DeserializeObject<Dictionary<string, object>>(await response.Content.ReadAsStringAsync());
+
+            if (!content.ContainsKey("access_token"))
+            {
+                return BadRequest("Strava did not return token");
+            }
+
+            return Ok($"{{\"access_token\": \"{content["access_token"]}\"}}");
         }
     }
 }
