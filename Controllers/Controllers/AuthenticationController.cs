@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Controllers.Utilities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -37,17 +38,17 @@ namespace Controllers.Controllers
 
             var client = _clientFactory.CreateClient();
 
-            var authRequest = new HttpRequestMessage(HttpMethod.Post, _configuration["StravaOauthTokenUrl"])
+            var tokenRequest = new HttpRequestMessage(HttpMethod.Post, _configuration[ConfigurationKeys.StravaTokenUrl])
             {
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
-                    {"client_id", _configuration["ClientId"]},
-                    {"client_secret", _configuration["ClientSecret"]},
+                    {"client_id", _configuration[ConfigurationKeys.ClientId]},
+                    {"client_secret", _configuration[ConfigurationKeys.ClientSecret]},
                     {"code", code},
                     {"grant_type", "authorization_code"}
                 })
             };
-            var response = await client.SendAsync(authRequest);
+            var response = await client.SendAsync(tokenRequest);
 
             if (!response.IsSuccessStatusCode)
             {

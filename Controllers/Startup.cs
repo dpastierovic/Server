@@ -1,3 +1,4 @@
+using Controllers.Utilities;
 using GpsAppDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +24,7 @@ namespace Controllers
             services.AddControllers();
 
             services.AddDbContext<ActivityContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ActivityDBConnection"),
+                options.UseSqlServer(Configuration.GetConnectionString(ConfigurationKeys.ActivityDbConnection),
                     _=>_.UseNetTopologySuite()));
 
             services.AddTransient<ActivityRepository>();
