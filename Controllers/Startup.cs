@@ -30,6 +30,8 @@ namespace Controllers
             services.AddTransient<ActivityRepository>();
 
             services.AddHttpClient();
+
+            services.AddSingleton<IStravaRequestFactory, StravaRequestFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
