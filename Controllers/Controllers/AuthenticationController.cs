@@ -1,12 +1,10 @@
-﻿using Controllers.Utilities;
+﻿using Controllers.UserManagement;
+using GpsAppDB;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Controllers.UserManagement;
 
 namespace Controllers.Controllers
 {
@@ -14,13 +12,17 @@ namespace Controllers.Controllers
     [Route("/api/[controller]")]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IStravaRequestFactory _stravaRequestFactory;
+        private readonly AthleteRepository _athleteRepository;
 
-        public AuthenticationController(IConfiguration configuration, IHttpClientFactory clientFactory)
+        public AuthenticationController(IHttpClientFactory clientFactory,
+            IStravaRequestFactory stravaRequestFactory,
+            AthleteRepository athleteRepository)
         {
-            _configuration = configuration;
             _clientFactory = clientFactory;
+            _stravaRequestFactory = stravaRequestFactory;
+            _athleteRepository = athleteRepository;
         }
 
         [HttpPut]
@@ -36,18 +38,8 @@ namespace Controllers.Controllers
                 return BadRequest("Code is null or empty string.");
             }
 
+            var tokenRequest = _stravaRequestFactory.GetTokenRequest(code);
             var client = _clientFactory.CreateClient();
-
-            var tokenRequest = new HttpRequestMessage(HttpMethod.Post, _configuration[ConfigurationKeys.StravaTokenUrl])
-            {
-                Content = new FormUrlEncodedContent(new Dictionary<string, string>
-                {
-                    {"client_id", _configuration[ConfigurationKeys.ClientId]},
-                    {"client_secret", _configuration[ConfigurationKeys.ClientSecret]},
-                    {"code", code},
-                    {"grant_type", "authorization_code"}
-                })
-            };
             var response = await client.SendAsync(tokenRequest);
 
             if (!response.IsSuccessStatusCode)
@@ -60,6 +52,11 @@ namespace Controllers.Controllers
             if (token == null)
             {
                 return BadRequest("Strava did not return token");
+            }
+
+            if (!_athleteRepository.IsStored(token.AthleteId))
+            {
+                _athleteRepository.Add(token.AthleteId, token.FirstName, token.LastName);
             }
 
             return Ok($"{{\"access_token\": \"{token.AccessToken}\"}}");

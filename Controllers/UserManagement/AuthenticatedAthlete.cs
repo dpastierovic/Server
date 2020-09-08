@@ -2,14 +2,21 @@
 
 namespace Controllers.UserManagement
 {
-    public class StravaToken
+    public class AuthenticatedAthlete
     {
-        public StravaToken(string athleteId, string accessToken, string refreshToken, DateTimeOffset expiresAt)
+        public AuthenticatedAthlete(string athleteId,
+            string accessToken,
+            string refreshToken,
+            DateTimeOffset expiresAt,
+            string firstName,
+            string lastName)
         {
             AthleteId = athleteId;
             AccessToken = accessToken;
             RefreshToken = refreshToken;
             ExpiresAt = expiresAt;
+            FirstName = firstName;
+            LastName = lastName;
         }
 
         public string AthleteId { get; }
@@ -20,6 +27,8 @@ namespace Controllers.UserManagement
 
         public DateTimeOffset ExpiresAt { get; }
 
-        public TimeSpan ExpiresIn => ExpiresAt - DateTimeOffset.Now;
+        public string FirstName { get; }
+
+        public string LastName { get; }
     }
 }

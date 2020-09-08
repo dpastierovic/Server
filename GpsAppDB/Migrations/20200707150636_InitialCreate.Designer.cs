@@ -10,7 +10,7 @@ using NetTopologySuite.Geometries;
 
 namespace GpsAppDB.Migrations
 {
-    [DbContext(typeof(ActivityContext))]
+    [DbContext(typeof(AthleteContext))]
     [Migration("20200707150636_InitialCreate")]
     partial class InitialCreate
     {
@@ -22,7 +22,7 @@ namespace GpsAppDB.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("GpsAppDB.Activity", b =>
+            modelBuilder.Entity("GpsAppDB.Athlete", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

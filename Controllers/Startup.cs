@@ -23,11 +23,11 @@ namespace Controllers
         {
             services.AddControllers();
 
-            services.AddDbContext<ActivityContext>(options =>
+            services.AddDbContext<AthleteContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(ConfigurationKeys.ActivityDbConnection),
                     _=>_.UseNetTopologySuite()));
 
-            services.AddTransient<ActivityRepository>();
+            services.AddTransient<AthleteRepository>();
 
             services.AddHttpClient();
 

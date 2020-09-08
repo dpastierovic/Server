@@ -1,29 +1,19 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using NetTopologySuite;
-using NetTopologySuite.Geometries;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace GpsAppDB
 {
-    public class ActivityContext : DbContext
+    public class AthleteContext : DbContext
     {
-        public ActivityContext(DbContextOptions options) : base(options)
+        public AthleteContext(DbContextOptions options) : base(options)
         {
             
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Activity>().HasData(new Activity
-            {
-                Id = 1,
-                Name = "seed activity",
-                Timestamp = DateTime.Now,
-                Gear = "CUBE Agree C62 Race Disc",
-                StartingPoint = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326).CreatePoint(new Coordinate(48, 18))
-        });
+            modelBuilder.Entity<Athlete>();
         }
 
-        public DbSet<Activity> Activities { get; set; }
+        public DbSet<Athlete> Athletes { get; set; }
     }
 }
