@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpsAppDB.Migrations
 {
-    [DbContext(typeof(AthleteContext))]
+    [DbContext(typeof(ExploViewer))]
     partial class ActivityContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -18,7 +18,34 @@ namespace GpsAppDB.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("GpsAppDB.Athlete", b =>
+            modelBuilder.Entity("GpsAppDB.Entities.Activity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ActivityId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AthleteId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsRenamed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Polyline")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Activities");
+                });
+
+            modelBuilder.Entity("GpsAppDB.Entities.Athlete", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,7 +63,7 @@ namespace GpsAppDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Athletes","Application");
+                    b.ToTable("Athletes");
                 });
 #pragma warning restore 612, 618
         }

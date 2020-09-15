@@ -12,6 +12,6 @@ namespace Controllers
         /// <summary>
         /// Returns list of recent activities done by the authenticated user
         /// </summary>
-        HttpRequestMessage GetActivityListRequest(string accessToken);
+        HttpRequestMessage GetActivityListRequest(string accessToken, int page);
     }
 }

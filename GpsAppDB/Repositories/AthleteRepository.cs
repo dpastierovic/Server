@@ -1,12 +1,13 @@
-﻿using System.Linq;
+﻿using GpsAppDB.Entities;
+using System.Linq;
 
-namespace GpsAppDB
+namespace GpsAppDB.Repositories
 {
     public class AthleteRepository
     {
-        private readonly AthleteContext _context;
+        private readonly ExploViewer _context;
 
-        public AthleteRepository(AthleteContext context)
+        public AthleteRepository(ExploViewer context)
         {
             _context = context;
         }

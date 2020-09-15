@@ -10,7 +10,7 @@ using NetTopologySuite.Geometries;
 
 namespace GpsAppDB.Migrations
 {
-    [DbContext(typeof(AthleteContext))]
+    [DbContext(typeof(ExploViewer))]
     [Migration("20200707150636_InitialCreate")]
     partial class InitialCreate
     {

@@ -9,6 +9,7 @@ namespace Controllers
     {
         // refresh token might be required
         private readonly IConfiguration _configuration;
+        private readonly string _pageSize = "20";
 
         public StravaRequestFactory(IConfiguration configuration)
         {
@@ -29,9 +30,16 @@ namespace Controllers
             };
         }
 
-        public HttpRequestMessage GetActivityListRequest(string accessToken)
+        public HttpRequestMessage GetActivityListRequest(string accessToken, int page)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"{_configuration[ConfigurationKeys.StravaApiUrl]}/athlete/activities");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{_configuration[ConfigurationKeys.StravaApiUrl]}/athlete/activities")
+            {
+                Content = new FormUrlEncodedContent(new Dictionary<string, string>
+                {
+                    { "page", page.ToString() },
+                    { "per_page", _pageSize }
+                })
+            };
             request.Headers.Add("authorization", $"Bearer {accessToken}");
             return request;
         }

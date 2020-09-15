@@ -1,5 +1,5 @@
 ﻿using Controllers.UserManagement;
-using GpsAppDB;
+using GpsAppDB.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Net.Http;

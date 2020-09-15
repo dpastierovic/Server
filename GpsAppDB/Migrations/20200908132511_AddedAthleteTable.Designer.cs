@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpsAppDB.Migrations
 {
-    [DbContext(typeof(AthleteContext))]
+    [DbContext(typeof(ExploViewer))]
     [Migration("20200908132511_AddedAthleteTable")]
     partial class AddedAthleteTable
     {

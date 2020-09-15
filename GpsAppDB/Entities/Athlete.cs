@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GpsAppDB
+namespace GpsAppDB.Entities
 {
-    [Table("Athletes", Schema = "Application")]
+    [Table("Athletes")]
     public class Athlete
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

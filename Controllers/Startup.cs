@@ -1,5 +1,6 @@
 using Controllers.Utilities;
 using GpsAppDB;
+using GpsAppDB.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,11 +24,12 @@ namespace Controllers
         {
             services.AddControllers();
 
-            services.AddDbContext<AthleteContext>(options =>
+            services.AddDbContext<ExploViewer>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(ConfigurationKeys.ActivityDbConnection),
                     _=>_.UseNetTopologySuite()));
 
             services.AddTransient<AthleteRepository>();
+            services.AddTransient<ActivityRepository>();
 
             services.AddHttpClient();
 
