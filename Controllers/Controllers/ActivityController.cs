@@ -32,8 +32,6 @@ namespace Controllers.Controllers
         [Route("/api/[controller]/activities")]
         public async Task<IActionResult> GetActivities([FromHeader] string token)
         {
-            var accessToken = Request.Headers["access_token"];
-
             var client = _clientFactory.CreateClient();
 
             var page = 0;
@@ -41,7 +39,7 @@ namespace Controllers.Controllers
             do
             {
                 page++;
-                var activityRequest = _stravaRequestFactory.GetActivityListRequest(accessToken, page);
+                var activityRequest = _stravaRequestFactory.GetActivityListRequest(token, page);
                 var response = await client.SendAsync(activityRequest);
                 var content = await response.Content.ReadAsStringAsync();
                 contentDictionary = JsonConvert.DeserializeObject<IEnumerable<Dictionary<string, object>>>(content);

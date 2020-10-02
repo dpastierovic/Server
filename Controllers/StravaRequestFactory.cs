@@ -9,7 +9,7 @@ namespace Controllers
     {
         // refresh token might be required
         private readonly IConfiguration _configuration;
-        private readonly string _pageSize = "20";
+        private const string PageSize = "50";
 
         public StravaRequestFactory(IConfiguration configuration)
         {
@@ -37,7 +37,7 @@ namespace Controllers
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
                     { "page", page.ToString() },
-                    { "per_page", _pageSize }
+                    { "per_page", PageSize }
                 })
             };
             request.Headers.Add("authorization", $"Bearer {accessToken}");
