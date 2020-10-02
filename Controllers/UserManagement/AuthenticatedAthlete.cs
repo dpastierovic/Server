@@ -9,7 +9,8 @@ namespace Controllers.UserManagement
             string refreshToken,
             DateTimeOffset expiresAt,
             string firstName,
-            string lastName)
+            string lastName,
+            string profilePicture)
         {
             AthleteId = athleteId;
             AccessToken = accessToken;
@@ -17,6 +18,7 @@ namespace Controllers.UserManagement
             ExpiresAt = expiresAt;
             FirstName = firstName;
             LastName = lastName;
+            ProfilePicture = profilePicture;
         }
 
         public string AthleteId { get; }
@@ -30,5 +32,7 @@ namespace Controllers.UserManagement
         public string FirstName { get; }
 
         public string LastName { get; }
+
+        public string ProfilePicture { get; }
     }
 }

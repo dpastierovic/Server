@@ -1,6 +1,7 @@
 ﻿using Controllers.UserManagement;
 using GpsAppDB.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -14,14 +15,17 @@ namespace Controllers.Controllers
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly IStravaRequestFactory _stravaRequestFactory;
+        private readonly IAuthenticatedAthleteFactory _authenticatedAthleteFactory;
         private readonly AthleteRepository _athleteRepository;
 
         public AuthenticationController(IHttpClientFactory clientFactory,
             IStravaRequestFactory stravaRequestFactory,
+            IAuthenticatedAthleteFactory authenticatedAthleteFactory,
             AthleteRepository athleteRepository)
         {
             _clientFactory = clientFactory;
             _stravaRequestFactory = stravaRequestFactory;
+            _authenticatedAthleteFactory = authenticatedAthleteFactory;
             _athleteRepository = athleteRepository;
         }
 
@@ -47,19 +51,19 @@ namespace Controllers.Controllers
                 return StatusCode((int) response.StatusCode);
             }
 
-            var token = await UserTokenMapper.LogInUser(response);
+            var athlete = await _authenticatedAthleteFactory.Create(response);
 
-            if (token == null)
+            if (athlete == null)
             {
                 return BadRequest("Strava did not return token");
             }
 
-            if (!_athleteRepository.IsStored(token.AthleteId))
+            if (!_athleteRepository.IsStored(athlete.AthleteId))
             {
-                _athleteRepository.Add(token.AthleteId, token.FirstName, token.LastName);
+                _athleteRepository.Add(athlete.AthleteId, athlete.FirstName, athlete.LastName);
             }
 
-            return Ok($"{{\"access_token\": \"{token.AccessToken}\"}}");
+            return Ok(JsonConvert.SerializeObject(athlete));
         }
     }
 }
