@@ -7,11 +7,13 @@ namespace Controllers
         /// <summary>
         /// Returns request for user and refresh token
         /// </summary>
-        public HttpRequestMessage GetTokenRequest(string code);
+        HttpRequestMessage GetTokenRequest(string code);
         
         /// <summary>
         /// Returns list of recent activities done by the authenticated user
         /// </summary>
-        HttpRequestMessage GetActivityListRequest(string accessToken, int page);
+        HttpRequestMessage GetActivityListRequest(string accessToken, int page, int perPage);
+
+        HttpRequestMessage GetAthleteStats(string accessToken, string id);
     }
 }

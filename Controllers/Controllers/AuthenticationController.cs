@@ -46,17 +46,11 @@ namespace Controllers.Controllers
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(tokenRequest);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return StatusCode((int) response.StatusCode);
-            }
+            if (!response.IsSuccessStatusCode) return StatusCode((int) response.StatusCode);
 
             var athlete = await _authenticatedAthleteFactory.Create(response);
 
-            if (athlete == null)
-            {
-                return BadRequest("Strava did not return token");
-            }
+            if (athlete == null) return BadRequest("Strava did not return token");
 
             if (!_athleteRepository.IsStored(athlete.AthleteId))
             {
@@ -64,6 +58,17 @@ namespace Controllers.Controllers
             }
 
             return Ok(JsonConvert.SerializeObject(athlete));
+        }
+
+        [HttpGet]
+        [Route("/api/[controller]/stats/{id}")]
+        public async Task<IActionResult> GetStats([FromHeader] string token, string id)
+        {
+            var client = _clientFactory.CreateClient();
+            var request = _stravaRequestFactory.GetAthleteStats(token, id);
+            var response = await client.SendAsync(request);
+            
+            return StatusCode((int) response.StatusCode, await response.Content.ReadAsStringAsync());
         }
     }
 }
