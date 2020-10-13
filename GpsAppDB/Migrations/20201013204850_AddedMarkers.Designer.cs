@@ -3,14 +3,16 @@ using GpsAppDB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpsAppDB.Migrations
 {
     [DbContext(typeof(ExploViewer))]
-    partial class ActivityContextModelSnapshot : ModelSnapshot
+    [Migration("20201013204850_AddedMarkers")]
+    partial class AddedMarkers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -14,10 +14,13 @@ namespace GpsAppDB
         {
             modelBuilder.Entity<Athlete>();
             modelBuilder.Entity<Activity>();
+            modelBuilder.Entity<Marker>();
         }
 
         public DbSet<Athlete> Athletes { get; set; }
 
         public  DbSet<Activity> Activities { get; set; }
+
+        public DbSet<Marker> Markers { get; set; }
     }
 }

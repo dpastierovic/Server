@@ -21,7 +21,8 @@ namespace Controllers.Controllers
         public AuthenticationController(IHttpClientFactory clientFactory,
             IStravaRequestFactory stravaRequestFactory,
             IAuthenticatedAthleteFactory authenticatedAthleteFactory,
-            AthleteRepository athleteRepository)
+            AthleteRepository athleteRepository,
+            IMarkerRepository markerRepository)
         {
             _clientFactory = clientFactory;
             _stravaRequestFactory = stravaRequestFactory;

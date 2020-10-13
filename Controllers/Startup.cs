@@ -32,6 +32,7 @@ namespace Controllers
 
             services.AddTransient<AthleteRepository>();
             services.AddTransient<ActivityRepository>();
+            services.AddTransient<IMarkerRepository, MarkerRepository>();
             services.AddSingleton<IAuthenticatedAthleteFactory, AuthenticatedAthleteFactory>();
 
             services.AddHttpClient();
