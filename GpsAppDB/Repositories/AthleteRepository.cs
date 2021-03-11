@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace GpsAppDB.Repositories
 {
-    public class AthleteRepository
+    public class AthleteRepository : IAthleteRepository
     {
         private readonly ExploViewer _context;
 
@@ -11,6 +11,9 @@ namespace GpsAppDB.Repositories
         {
             _context = context;
         }
+
+        public Athlete Get(string athleteId) =>
+            _context.Athletes.FirstOrDefault(athlete => athlete.AthleteId == athleteId);
 
         public Athlete Add(string athleteId, string firstName, string lastName)
         {

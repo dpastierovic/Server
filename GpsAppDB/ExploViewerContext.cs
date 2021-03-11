@@ -5,6 +5,8 @@ namespace GpsAppDB
 {
     public class ExploViewer : DbContext
     {
+        public const int SRID = 4326;
+
         public ExploViewer(DbContextOptions options) : base(options)
         {
             

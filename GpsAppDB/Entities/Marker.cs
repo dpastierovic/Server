@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using NetTopologySuite.Geometries;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GpsAppDB.Entities
 {
@@ -15,5 +16,7 @@ namespace GpsAppDB.Entities
         public double Longitude { get; set; }
 
         public double Latitude { get; set; }
+
+        public double Radius { get; set; }
     }
 }

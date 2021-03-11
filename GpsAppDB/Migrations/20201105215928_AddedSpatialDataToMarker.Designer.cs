@@ -4,14 +4,17 @@ using GpsAppDB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NetTopologySuite.Geometries;
 
 namespace GpsAppDB.Migrations
 {
     [DbContext(typeof(ExploViewer))]
-    partial class ExploViewerModelSnapshot : ModelSnapshot
+    [Migration("20201105215928_AddedSpatialDataToMarker")]
+    partial class AddedSpatialDataToMarker
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,20 +77,17 @@ namespace GpsAppDB.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<Geometry>("Area")
+                        .HasColumnType("geography");
+
                     b.Property<int?>("AthleteId")
                         .HasColumnType("int");
-
-                    b.Property<double>("Latitude")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Longitude")
-                        .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Radius")
-                        .HasColumnType("float");
+                    b.Property<Point>("Position")
+                        .HasColumnType("geography");
 
                     b.HasKey("Id");
 

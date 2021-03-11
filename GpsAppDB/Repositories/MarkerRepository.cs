@@ -7,25 +7,38 @@ namespace GpsAppDB.Repositories
     public class MarkerRepository : IMarkerRepository
     {
         private readonly ExploViewer _context;
+        private readonly IAthleteRepository _athleteRepository;
 
-        public MarkerRepository(ExploViewer context)
+        public MarkerRepository(ExploViewer context, IAthleteRepository athleteRepository)
         {
             _context = context;
+            _athleteRepository = athleteRepository;
         }
 
-        public Marker Add(string name, double latitude, double longitude)
+        public Marker Add(string athleteId, string name, double latitude, double longitude)
         {
+            var athlete = _athleteRepository.Get(athleteId);
+
             var marker = new Marker
             {
+                Athlete = athlete,
                 Name = name,
                 Latitude = latitude,
-                Longitude = longitude
+                Longitude = longitude,
+                Radius = 500
             };
 
             _context.Markers.Add(marker);
             _context.SaveChanges();
 
             return marker;
+        }
+
+        public void Delete(string athleteId, int id)
+        {
+            var marker =_context.Markers.FirstOrDefault(m => m.Id == id);
+            if (marker != null) _context.Remove(marker);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Marker> GetAll(Athlete athlete)
